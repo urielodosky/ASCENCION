@@ -156,7 +156,11 @@ export default function NutritionPage() {
       const data = await res.json();
       
       if (!res.ok) {
-        setChatMsgs(prev => [...prev, { from: 'ai', text: '', html: `<div class="ai-tag">⬡ ASCENSION AI</div>Error: ${data.error || 'Fallo de conexión.'}` }]);
+        let errorMsg = "Error de IA";
+        if (data.error && (data.error.includes("503") || data.error.toLowerCase().includes("high demand") || data.error.includes("saturada") || data.error.includes("unavailable"))) {
+          errorMsg = "IA saturada (está siendo utilizada por muchos usuarios)";
+        }
+        setChatMsgs(prev => [...prev, { from: 'ai', text: '', html: `<div class="ai-tag">⬡ ASCENSION AI</div>${errorMsg}` }]);
         setIsChatLoading(false);
         return;
       }
@@ -189,7 +193,7 @@ export default function NutritionPage() {
         setChatMsgs(prev => [...prev, { from: 'ai', text: '', html: `<div class="ai-tag">⬡ ASCENSION AI</div>${data.message || 'No se reconocieron alimentos.'}` }]);
       }
     } catch (err) {
-      setChatMsgs(prev => [...prev, { from: 'ai', text: '', html: `<div class="ai-tag">⬡ ASCENSION AI</div>Ocurrió un error al procesar tu solicitud con Gemini.` }]);
+      setChatMsgs(prev => [...prev, { from: 'ai', text: '', html: `<div class="ai-tag">⬡ ASCENSION AI</div>Error de IA` }]);
     }
     
     setIsChatLoading(false);
@@ -469,7 +473,7 @@ export default function NutritionPage() {
               {isChatLoading && (
                 <div className="msg-ai" style={{ opacity: 0.7, fontStyle: "italic" }}>
                   <div className="ai-tag">⬡ ASCENSION AI</div>
-                  Procesando con Gemini...
+                  Calculando los datos
                 </div>
               )}
             </div>
