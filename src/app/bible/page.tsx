@@ -1,0 +1,1 @@
+﻿export default function BiblePage() { return <div className="section active"><div className="sec-header"><div className="sec-title">BIBLE</div></div><div className="empty-state"><i className="ti ti-tools"></i><p>Migración en progreso...</p></div></div>; }

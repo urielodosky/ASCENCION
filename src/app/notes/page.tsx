@@ -1,0 +1,1 @@
+﻿export default function NotesPage() { return <div className="section active"><div className="sec-header"><div className="sec-title">NOTES</div></div><div className="empty-state"><i className="ti ti-tools"></i><p>Migración en progreso...</p></div></div>; }

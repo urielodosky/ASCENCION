@@ -1,0 +1,1 @@
+﻿export default function CrmPage() { return <div className="section active"><div className="sec-header"><div className="sec-title">CRM</div></div><div className="empty-state"><i className="ti ti-tools"></i><p>Migración en progreso...</p></div></div>; }
