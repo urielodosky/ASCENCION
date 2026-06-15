@@ -2095,4 +2095,7 @@
     background: rgba(170, 68, 255, 0.03);
 }
 
-@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(-4px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
