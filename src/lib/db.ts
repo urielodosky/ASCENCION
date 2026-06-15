@@ -102,6 +102,8 @@ export const DEFAULTS: Record<string, any> = {
   schedule: {},
   studyEvents: [],
   weeklyShown: 0,
+  customBooks: [],
+  studyLogs: {},
 };
 
 export const DB = {

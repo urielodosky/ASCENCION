@@ -48,9 +48,9 @@
         }
 
         body.light .main,
-        .body.light .sidebar,
-        .body.light .panel,
-        .body.light .overlay .modal {
+        body.light .sidebar,
+        body.light .panel,
+        body.light .overlay .modal {
             background: var(--bg2);
         }
 
@@ -58,7 +58,7 @@
         body {
             height: 100%;
             overflow: hidden;
-            background: #000;
+            background: var(--bg);
         }
 
         body {
@@ -97,7 +97,7 @@
         /* SIDEBAR */
         .sidebar { padding-top: 10px; 
             width: 42px;
-            background: #000;
+            background: var(--bg);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
@@ -124,7 +124,7 @@
 
         .logo-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 900;
             color: var(--accent);
             letter-spacing: 4px;
@@ -132,7 +132,7 @@
         }
 
         .logo-icon {
-            font-size: 16px;
+            font-size: calc(16px * var(--font-scale));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,7 +149,7 @@
         }
 
         .logo-sub {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 2px;
             margin-top: 2px;
@@ -172,14 +172,14 @@
 
         .xp-lvl {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
             color: var(--amber);
             white-space: nowrap;
         }
 
         .xp-rank {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             white-space: nowrap;
         }
@@ -206,7 +206,7 @@
         }
 
         .nav-section {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -222,7 +222,7 @@
             gap: 10px;
             padding: 12px 14px; border-radius: 8px; margin: 0 8px 4px 8px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 500;
             color: var(--text2);
             border-radius: 5px;
@@ -243,7 +243,7 @@
         }
 
         .nav-item i {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             width: 18px;
             flex-shrink: 0;
         }
@@ -257,7 +257,7 @@
 
         .clock-display {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text3);
             white-space: nowrap;
         }
@@ -278,14 +278,14 @@
         }
 
         .status-text {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 1px;
             white-space: nowrap;
         }
 
         .save-flash {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--green);
             margin-top: 3px;
             opacity: 0;
@@ -320,7 +320,7 @@
         }
 
         .sidebar:not(:hover) .clock-display {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             text-align: center;
         }
 
@@ -338,7 +338,7 @@
             flex: 1;
             overflow-y: auto;
             height: 100vh;
-            background: #000;
+            background: var(--bg);
         }
 
         .section {
@@ -363,7 +363,7 @@
 
         .sec-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 700;
             letter-spacing: 4px;
             color: var(--text);
@@ -371,7 +371,7 @@
         }
 
         .sec-pill {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 2px;
             padding: 3px 8px;
@@ -389,7 +389,7 @@
 
         /* PANELS ï¿½ negro puro, borde fino, sin color */
         .panel {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 18px;
@@ -403,7 +403,7 @@
         }
 
         .panel-head {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
             color: var(--text2);
             letter-spacing: 2px;
@@ -429,7 +429,7 @@
 
         /* STAT CARDS ï¿½ sin glow, sin border de color */
         .stat-card {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 18px;
@@ -445,7 +445,7 @@
         }
 
         .stat-label {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -455,7 +455,7 @@
 
         .stat-value { text-shadow: 0 0 15px rgba(255, 0, 64, 0.6); 
             font-family: 'Outfit', sans-serif;
-            font-size: 28px;
+            font-size: calc(28px * var(--font-scale));
             font-weight: 900;
             color: var(--text);
             line-height: 1;
@@ -482,7 +482,7 @@
             align-items: center;
             gap: 4px;
             margin-top: 6px;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 500;
         }
 
@@ -541,7 +541,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 600;
             padding: 9px 16px;
             transition: opacity 0.15s;
@@ -561,7 +561,7 @@
         }
 
         .btn-secondary {
-            background: #000;
+            background: var(--bg);
             color: var(--text3);
             border: 1px solid var(--border2);
         }
@@ -572,7 +572,7 @@
         }
 
         .btn-green {
-            background: #000;
+            background: var(--bg);
             color: var(--green);
             border: 1px solid var(--border2);
         }
@@ -583,12 +583,12 @@
 
         .btn-lg {
             padding: 14px 24px;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
         }
 
         .btn-sm {
             padding: 6px 10px;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
         }
 
         .btn-icon {
@@ -597,7 +597,7 @@
             border-radius: 8px;
             cursor: pointer;
             color: var(--text2);
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             padding: 6px;
             transition: all 0.12s;
             display: inline-flex;
@@ -623,7 +623,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 600;
             color: var(--text2);
             padding: 6px 12px;
@@ -646,7 +646,7 @@
         .tag {
             display: inline-flex;
             align-items: center;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 700;
             padding: 2px 7px;
             border-radius: 3px;
@@ -677,12 +677,12 @@
         input,
         select,
         textarea {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 5px;
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             padding: 9px 11px;
             outline: none;
             width: 100%;
@@ -701,7 +701,7 @@
         }
 
         select option {
-            background: #111;
+            background: var(--bg3);
         }
 
         .form-group {
@@ -709,7 +709,7 @@
         }
 
         .form-label {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 600;
             color: var(--text2);
             letter-spacing: 1.5px;
@@ -739,7 +739,7 @@
         }
 
         .bar-label {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
             flex-shrink: 0;
             font-weight: 500;
@@ -760,7 +760,7 @@
         }
 
         .bar-val {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text3);
             min-width: 40px;
             text-align: right;
@@ -790,7 +790,7 @@
 
         .sparklabel {
             flex: 1;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             text-align: center;
         }
@@ -819,7 +819,7 @@
             justify-content: center;
             flex-shrink: 0;
             transition: all 0.12s;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
         }
 
         .ex-chk.done {
@@ -830,19 +830,19 @@
 
         .ex-name {
             flex: 1;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text);
             font-weight: 500;
         }
 
         .ex-meta {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
         }
 
         .ex-wt {
             font-family: 'Outfit', sans-serif;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--amber);
         }
 
@@ -865,7 +865,7 @@
         }
 
         .cal-mini-hdr {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             text-align: center;
             padding: 4px 0;
@@ -878,7 +878,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
@@ -940,7 +940,7 @@
         }
 
         .hab-grid-table th {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             text-align: center;
             padding: 4px 6px;
@@ -949,7 +949,7 @@
         }
 
         .hab-name-cell {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text);
             font-weight: 500;
             padding: 8px 12px 8px 0;
@@ -968,12 +968,12 @@
             transition: all 0.12s;
             border: 1px solid var(--border);
             margin: auto;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
         }
 
         .hab-circle.empty {
-            background: #000;
+            background: var(--bg);
             border-color: #333;
             color: transparent;
         }
@@ -1044,7 +1044,7 @@
         }
 
         .modal {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border2);
             border-radius: 16px;
             padding: 24px;
@@ -1056,7 +1056,7 @@
 
         .modal-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
             color: var(--text);
             letter-spacing: 3px;
@@ -1094,7 +1094,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 700;
             flex-shrink: 0;
         }
@@ -1105,7 +1105,7 @@
         }
 
         .tx-desc {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text);
             font-weight: 500;
             white-space: nowrap;
@@ -1114,21 +1114,21 @@
         }
 
         .tx-meta {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             margin-top: 2px;
         }
 
         .tx-amt {
             font-family: 'Outfit', sans-serif;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
         }
 
         .tx-del {
             cursor: pointer;
             color: var(--text2);
-            font-size: 16px;
+            font-size: calc(16px * var(--font-scale));
             opacity: 0.3;
             transition: opacity 0.12s;
             margin-left: 6px;
@@ -1154,19 +1154,19 @@
 
         .food-name {
             flex: 1;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text);
             font-weight: 500;
         }
 
         .food-kcal {
             font-family: 'Outfit', sans-serif;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--amber);
         }
 
         .food-macros {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
         }
 
@@ -1174,7 +1174,7 @@
             cursor: pointer;
             color: var(--text2);
             opacity: 0.3;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             transition: opacity 0.12s;
         }
 
@@ -1197,18 +1197,18 @@
             border: 1px solid var(--border);
             cursor: pointer;
             font-family: 'Inter', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 600;
             transition: border-color 0.15s;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            background: #000;
+            background: var(--bg);
         }
 
         .fin-btn-big i {
-            font-size: 22px;
+            font-size: calc(22px * var(--font-scale));
         }
 
         .fin-btn-income {
@@ -1234,7 +1234,7 @@
         }
 
         .co-table th {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             text-align: left;
             padding: 7px 10px;
@@ -1245,7 +1245,7 @@
         }
 
         .co-table td {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text);
             padding: 9px 10px;
             border-bottom: 1px solid var(--border3);
@@ -1270,7 +1270,7 @@
 
         /* XP LEVEL */
         .xp-level-big {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 24px;
@@ -1279,14 +1279,14 @@
 
         .level-num {
             font-family: 'Outfit', sans-serif;
-            font-size: 64px;
+            font-size: calc(64px * var(--font-scale));
             font-weight: 900;
             color: var(--amber);
             line-height: 1;
         }
 
         .level-label {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -1295,7 +1295,7 @@
 
         .level-rank {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 700;
             margin-top: 6px;
         }
@@ -1314,20 +1314,20 @@
         }
 
         .cfg-label {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text);
             font-weight: 500;
         }
 
         .cfg-desc {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
             margin-top: 2px;
         }
 
         /* NOTES */
         .note-card {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 14px;
@@ -1341,26 +1341,26 @@
         }
 
         .note-title {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text);
             font-weight: 600;
             margin-bottom: 4px;
         }
 
         .note-preview {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             line-height: 1.5;
         }
 
         .note-date {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             margin-top: 6px;
         }
 
         .reminder-card {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px;
@@ -1372,7 +1372,7 @@
 
         .reminder-day {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--amber);
             font-weight: 700;
         }
@@ -1382,11 +1382,11 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: #111;
+            background: var(--bg3);
             border: 1px solid var(--border2);
             border-radius: 12px;
             padding: 11px 16px;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text);
             font-weight: 600;
             z-index: 1000;
@@ -1417,7 +1417,7 @@
         }
 
         .backup-card {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border2);
             border-radius: 16px;
             padding: 32px;
@@ -1430,7 +1430,7 @@
         .onboarding {
             position: fixed;
             inset: 0;
-            background: #000;
+            background: var(--bg);
             z-index: 500;
             display: none;
             align-items: center;
@@ -1443,7 +1443,7 @@
         }
 
         .onb-card {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border2);
             border-radius: 16px;
             padding: 28px;
@@ -1479,14 +1479,14 @@
 
         .onb-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+            font-size: calc(18px * var(--font-scale));
             color: var(--text);
             margin-bottom: 6px;
             font-weight: 900;
         }
 
         .onb-sub {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             margin-bottom: 18px;
             line-height: 1.6;
@@ -1499,7 +1499,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 600;
             border-radius: 8px;
             border: 1px solid transparent;
@@ -1535,7 +1535,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
         }
 
@@ -1551,11 +1551,11 @@
             text-align: center;
             padding: 28px;
             color: var(--text2);
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
         }
 
         .empty-state i {
-            font-size: 28px;
+            font-size: calc(28px * var(--font-scale));
             display: block;
             margin-bottom: 10px;
             opacity: 0.15;
@@ -1571,7 +1571,7 @@
         /* BIBLE */
         .bible-section-header {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -1581,7 +1581,7 @@
         }
 
         .bible-book {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px;
@@ -1597,14 +1597,14 @@
         }
 
         .bible-book-name {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 600;
             color: var(--text);
         }
 
         .bible-book-prog {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
         }
 
@@ -1622,7 +1622,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             cursor: pointer;
             transition: all 0.1s;
             color: var(--text2);
@@ -1647,7 +1647,7 @@
         }
 
         .sch-header {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 600;
             color: var(--text2);
             text-align: center;
@@ -1657,7 +1657,7 @@
         }
 
         .sch-time {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             padding: 5px 4px;
             text-align: right;
@@ -1682,7 +1682,7 @@
         }
 
         .sch-cell-text {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text);
             font-weight: 600;
             line-height: 1.3;
@@ -1695,7 +1695,7 @@
         }
 
         .grade-table th {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             text-align: left;
             padding: 8px 12px;
@@ -1707,7 +1707,7 @@
         .grade-table td {
             padding: 10px 12px;
             border-bottom: 1px solid var(--border3);
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
         }
 
         .grade-table tr:last-child td {
@@ -1717,13 +1717,13 @@
         .grade-input {
             width: 60px;
             padding: 5px 8px;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             text-align: center;
         }
 
         .grade-avg {
             font-family: 'Outfit', sans-serif;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             font-weight: 700;
         }
 
@@ -1743,7 +1743,7 @@
         }
 
         .month-bar-label {
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             color: var(--text2);
             text-align: center;
             margin-top: 3px;
@@ -1751,7 +1751,7 @@
 
         /* STUDY EVENTS */
         .study-event {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 10px 14px;
@@ -1769,7 +1769,7 @@
 
         .study-event-date {
             font-family: 'Outfit', sans-serif;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 700;
             min-width: 50px;
             color: var(--text2);
@@ -1777,12 +1777,12 @@
 
         .study-event-text {
             flex: 1;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text);
         }
 
         .study-event-type {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             font-weight: 700;
             padding: 2px 7px;
             border-radius: 3px;
@@ -1859,7 +1859,7 @@
         }
 
         .muscle-selector .tab {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             padding: 3px 8px;
         }
 
@@ -1874,7 +1874,7 @@
 
         .israetel-muscle {
             width: 80px;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-weight: 600;
             color: var(--text);
         }
@@ -1894,14 +1894,14 @@
         }
 
         .israetel-sets {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             width: 40px;
             text-align: right;
         }
 
         .israetel-badge {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             padding: 2px 6px;
             border-radius: 3px;
             font-weight: 700;
@@ -1956,13 +1956,13 @@
 
         /* FOOD FAVS */
         .food-fav-btn {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             color: var(--text2);
             border-radius: 8px;
             padding: 5px 10px;
             cursor: pointer;
-            font-size: 9px;
+            font-size: calc(9px * var(--font-scale));
             font-family: 'Inter', sans-serif;
             transition: all 0.12s;
         }
@@ -1994,7 +1994,7 @@
             background: var(--bg3);
             border-radius: 12px;
             padding: 8px 12px;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             max-width: 80%;
         }
 
@@ -2003,14 +2003,14 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 8px 12px;
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             max-width: 90%;
             line-height: 1.5;
         }
 
         .ai-tag {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--accent);
             font-weight: 700;
             letter-spacing: 1px;
@@ -2025,7 +2025,7 @@
         }
 
         .badge {
-            background: #000;
+            background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 12px 8px;
@@ -2039,13 +2039,13 @@
         }
 
         .badge-icon {
-            font-size: 22px;
+            font-size: calc(22px * var(--font-scale));
             display: block;
             margin-bottom: 4px;
         }
 
         .badge-name {
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             color: var(--text2);
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -2053,7 +2053,7 @@
 
         /* ONBOARDING SIDEBAR (dash widgets) */
         .dash-verse {
-            font-size: 10px;
+            font-size: calc(10px * var(--font-scale));
             color: var(--text2);
             line-height: 1.7;
             padding: 12px;
@@ -2066,7 +2066,7 @@
         .dash-verse strong {
             color: var(--text3);
             font-style: normal;
-            font-size: 11px;
+            font-size: calc(11px * var(--font-scale));
             letter-spacing: 1px;
         }
     

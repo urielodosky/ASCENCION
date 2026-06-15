@@ -18,7 +18,7 @@ export default function Sidebar() {
       setTimeStr(`${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`);
     };
     updateTime();
-    const interval = setInterval(updateTime, 1000);
+    const interval = setInterval(updateTime, 60000);
 
     const handleFlashSave = () => {
       const el = document.getElementById("save-flash");

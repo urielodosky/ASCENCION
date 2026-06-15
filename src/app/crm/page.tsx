@@ -129,15 +129,15 @@ export default function CrmPage() {
             {fSales.length} ventas completadas
           </div>
         </div>
-        <div className="panel" style={{ borderColor: "rgba(0,136,255,0.2)" }}>
-          <div className="panel-head" style={{ color: "var(--blue)" }}>FACTURADO MES</div>
-          <div style={{ fontSize: "26px", fontWeight: 700, color: "var(--blue)", marginTop: "4px" }}>
+        <div className="panel" style={{ borderColor: "rgba(255,170,0,0.2)" }}>
+          <div className="panel-head" style={{ color: "var(--amber)" }}>FACTURADO MES</div>
+          <div style={{ fontSize: "26px", fontWeight: 700, color: "var(--amber)", marginTop: "4px" }}>
             {currency} {Math.round(totRev).toLocaleString()}
           </div>
         </div>
-        <div className="panel" style={{ borderColor: "rgba(255,170,0,0.2)" }}>
-          <div className="panel-head" style={{ color: "var(--amber)" }}>TICKET PROMEDIO</div>
-          <div style={{ fontSize: "26px", fontWeight: 700, color: "var(--amber)", marginTop: "4px" }}>
+        <div className="panel" style={{ borderColor: "rgba(255,0,64,0.2)" }}>
+          <div className="panel-head" style={{ color: "var(--accent)" }}>TICKET PROMEDIO</div>
+          <div style={{ fontSize: "26px", fontWeight: 700, color: "var(--accent)", marginTop: "4px" }}>
             {currency} {Math.round(avgTicket).toLocaleString()}
           </div>
         </div>
