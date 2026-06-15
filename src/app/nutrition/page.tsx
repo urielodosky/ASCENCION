@@ -152,10 +152,19 @@ export default function NutritionPage() {
     setIsChatLoading(true);
 
     try {
+      const payload = {
+        message: msg,
+        context: {
+          cfg: cfg || {},
+          totals: tot || {},
+          weight: lastW ? lastW.weight : "Desconocido"
+        }
+      };
+
       const res = await fetch('/api/gemini', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg })
+        body: JSON.stringify(payload)
       });
       
       const data = await res.json();
