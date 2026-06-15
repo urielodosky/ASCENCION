@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useData } from "@/lib/db";
-import { today, ds, uid } from "@/lib/utils";
+import { today, ds, uid, fmtD } from "@/lib/utils";
 
 const ISRAETEL: Record<string, any> = {
   pecho: { mev: 10, mav: 20, mrv: 22 }, espalda: { mev: 10, mav: 22, mrv: 25 },
@@ -39,6 +39,7 @@ export default function TrainingPage() {
 
   const [activeRoutine, setActiveRoutine] = useState(0);
   const [activeSection, setActiveSection] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string>(today());
 
   // Drag and Drop State
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
@@ -117,9 +118,22 @@ export default function TrainingPage() {
   };
 
 
-  const doneTotal = Object.values(calStates || {}).filter((v) => v === "done").length;
   const wu = cfg?.weightUnit || "kg";
   const todayStr = today();
+
+  const getDaysTrainedThisWeek = () => {
+    const now = new Date(selectedDate + "T12:00:00");
+    const dayOfWeek = now.getDay() === 0 ? 6 : now.getDay() - 1;
+    let count = 0;
+    for (let i = 0; i <= dayOfWeek; i++) {
+      const d = new Date(now);
+      d.setDate(now.getDate() - (dayOfWeek - i));
+      if ((calStates || {})[ds(d)]) count++;
+    }
+    return count;
+  };
+
+  const doneTotal = getDaysTrainedThisWeek();
 
   const calcTotalVolume = () => {
     let v = 0;
@@ -153,7 +167,7 @@ export default function TrainingPage() {
   };
 
   const r = routines?.[activeRoutine];
-  const tc = (completedEx || {})[todayStr] || {};
+  const tc = (completedEx || {})[selectedDate] || {};
   const doneCount = r?.exercises ? r.exercises.filter((_: any, i: number) => tc[r.id + i]).length : 0;
   const pct = r?.exercises?.length ? Math.round((doneCount / r.exercises.length) * 100) : 0;
   const catColor = r?.cat === "Fuerza" ? "tag-red" : r?.cat === "Hipertrofia" ? "tag-amber" : "tag-blue";
@@ -161,37 +175,49 @@ export default function TrainingPage() {
   const toggleEx = (idx: number) => {
     if (!r) return;
     const newComp = { ...(completedEx || {}) };
-    const dayData = { ...(newComp[todayStr] || {}) };
+    const dayData = { ...(newComp[selectedDate] || {}) };
     const key = r.id + idx;
     
-    const isDone = !dayData[key];
-    if (isDone) {
+    if (!dayData[key]) {
       dayData[key] = true;
       const ex = r.exercises[idx];
       if (ex && ex.weight) {
-        setWeightHist([...(weightHist || []), { date: todayStr, exercise: ex.n, weight: ex.weight }]);
+        setWeightHist([...(weightHist || []), { date: selectedDate, exercise: ex.n, weight: ex.weight }]);
       }
     } else {
       delete dayData[key];
     }
     
-    newComp[todayStr] = dayData;
+    newComp[selectedDate] = dayData;
     setCompletedEx(newComp);
   };
 
   const markRoutineComplete = () => {
     if (!r) return;
     const newComp = { ...(completedEx || {}) };
-    const dayData = { ...(newComp[todayStr] || {}) };
-    (r.exercises || []).forEach((_: any, i: number) => {
-      dayData[r.id + i] = true;
-    });
-    newComp[todayStr] = dayData;
-    setCompletedEx(newComp);
+    const dayData = { ...(newComp[selectedDate] || {}) };
+    
+    if (pct === 100) {
+      (r.exercises || []).forEach((_: any, i: number) => {
+        delete dayData[r.id + i];
+      });
+      newComp[selectedDate] = dayData;
+      setCompletedEx(newComp);
 
-    const newCalStates = { ...(calStates || {}) };
-    newCalStates[todayStr] = "done";
-    setCalStates(newCalStates);
+      const newCalStates = { ...(calStates || {}) };
+      delete newCalStates[selectedDate];
+      setCalStates(newCalStates);
+    } else {
+      (r.exercises || []).forEach((_: any, i: number) => {
+        dayData[r.id + i] = true;
+      });
+      newComp[selectedDate] = dayData;
+      setCompletedEx(newComp);
+
+      const newCalStates = { ...(calStates || {}) };
+      newCalStates[selectedDate] = r.name;
+      setCalStates(newCalStates);
+    }
   };
 
   const duplicateRoutine = () => {
@@ -310,10 +336,25 @@ export default function TrainingPage() {
     return sets > 0 || (r && (r.exercises || []).some((ex: any) => (ex.muscles || []).includes(m)));
   });
 
+
+
   return (
     <div className="section active" style={{ paddingBottom: "100px" }}>
       <div className="sec-header">
         <div className="sec-title">ENTRENAMIENTO</div>
+        <div className="sec-pill" id="nut-date-lbl">{selectedDate === todayStr ? "HOY" : fmtD(selectedDate).toUpperCase()}</div>
+        <div className="sec-actions">
+          <button className="btn btn-secondary btn-sm" onClick={() => {
+            const d = new Date(selectedDate + "T12:00:00");
+            d.setDate(d.getDate() - 1);
+            setSelectedDate(ds(d));
+          }}>‹ Día</button>
+          <button className="btn btn-secondary btn-sm" onClick={() => {
+            const d = new Date(selectedDate + "T12:00:00");
+            d.setDate(d.getDate() + 1);
+            setSelectedDate(ds(d));
+          }}>Día ›</button>
+        </div>
       </div>
 
       <div className="tabs" style={{ marginBottom: "16px", display: "flex", gap: "8px", overflowX: "auto" }}>
@@ -362,7 +403,7 @@ export default function TrainingPage() {
         <div className="stat-card c-green">
           <div className="stat-label">Días entrenados</div>
           <div className="stat-value c-green">{doneTotal}</div>
-          <div className="stat-diff up">histórico</div>
+          <div className="stat-diff up">en la semana</div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Volumen total</div>
@@ -510,8 +551,8 @@ export default function TrainingPage() {
             <button className="btn btn-secondary btn-sm" onClick={() => (() => { setExForm({ ...DEFAULT_EX, section: activeSection || (r.sections || ["Entrada en calor"])[0] || "Fuerza" }); setIsModalOpen(true); setEditIdx(null); })()}>
               <i className="ti ti-plus"></i> Ejercicio
             </button>
-            <button className="btn btn-primary" onClick={markRoutineComplete}>
-              <i className="ti ti-check"></i> Marcar día completo
+            <button className={`btn ${pct === 100 ? 'btn-secondary' : 'btn-primary'}`} onClick={markRoutineComplete}>
+              <i className={pct === 100 ? "ti ti-x" : "ti ti-check"}></i> {pct === 100 ? "Desmarcar todo" : "Marcar día completo"}
             </button>
             <span style={{ fontSize: "11px", marginLeft: "auto", fontWeight: 600, color: "var(--accent)" }}>
               {pct}% completado
@@ -578,6 +619,50 @@ export default function TrainingPage() {
                 <div style={{ fontSize: "10px", color: "var(--text2)", padding: "8px 0" }}>Asigná músculos a los ejercicios para ver el análisis Israetel.</div>
               )}
             </div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-head">Calendario mensual</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "2px", marginBottom: "5px" }}>
+            {["L","M","X","J","V","S","D"].map(d => <div key={d} style={{ fontSize: "8px", color: "var(--text2)", textAlign: "center", fontWeight: 700 }}>{d}</div>)}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "2px" }}>
+            {(() => {
+              const curDate = new Date(selectedDate + "T12:00:00");
+              const m = curDate.getMonth(); 
+              const y = curDate.getFullYear(); 
+              const first = new Date(y, m, 1); 
+              const offset = (first.getDay() + 6) % 7; 
+              const days = new Date(y, m + 1, 0).getDate();
+              const todayNow = new Date();
+              
+              const cells = [];
+              for (let i = 0; i < offset; i++) cells.push(<div key={`empty-${i}`}></div>);
+              
+              for (let d = 1; d <= days; d++) {
+                const key = `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+                const state = (calStates || {})[key];
+                const isDone = !!state;
+                const isSelected = key === selectedDate;
+                const isTodayCell = todayNow.getDate() === d && todayNow.getMonth() === m && todayNow.getFullYear() === y;
+                
+                cells.push(
+                  <div 
+                    key={key} 
+                    onClick={() => setSelectedDate(key)}
+                    className={`nut-cal-cell ${isDone ? 'c-green' : ''} ${isTodayCell && !isSelected ? 'c-today' : ''}`} 
+                    style={{ cursor: "pointer", border: isSelected ? "1px solid var(--accent)" : "1px solid transparent" }}
+                    title={isDone ? state : ''}
+                  >
+                    {d}
+                    {isDone && state !== "done" && <div style={{ fontSize: "5px", color: "#000", background: "var(--accent)", padding: "2px", borderRadius: "3px", marginTop: "4px", lineHeight: 1, overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "95%", fontWeight: 900 }}>{state.toUpperCase()}</div>}
+                    {isDone && state === "done" && <i className="ti ti-barbell" style={{ fontSize: "12px", marginTop: "4px", color: "#000" }}></i>}
+                  </div>
+                );
+              }
+              return cells;
+            })()}
           </div>
         </div>
       </div>

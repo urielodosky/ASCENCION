@@ -95,7 +95,12 @@ export default function NutritionPage() {
 
   const lastW = weightLogs.length ? weightLogs[weightLogs.length - 1] : null;
   const firstW = weightLogs.length ? weightLogs[0] : null;
-  const weightProgPct = firstW && lastW ? Math.min(100, Math.round(Math.abs(firstW.weight - lastW.weight) / (Math.abs(firstW.weight - cfg.pesoGoal) || 1) * 100)) : 0;
+  let weightProgPct = 0;
+  if (lastW && cfg.pesoGoal) {
+    const goal = cfg.pesoGoal;
+    const cur = lastW.weight;
+    weightProgPct = cur <= goal ? Math.round((cur / goal) * 100) : Math.round((goal / cur) * 100);
+  }
 
   const mealLogs = logs.filter((l: any) => l.meal === activeMealTab);
 
@@ -111,12 +116,12 @@ export default function NutritionPage() {
     const val = parseFloat(weightInp);
     if (isNaN(val) || val < 20 || val > 400) return;
     const t = today();
-    const newLogs = [...weightLogs];
+    const newLogs = Array.isArray(weightLogs) ? [...weightLogs] : [];
     const ex = newLogs.findIndex(w => w.date === t);
     if (ex >= 0) newLogs[ex] = { ...newLogs[ex], weight: val };
     else newLogs.push({ date: t, weight: val });
     
-    const newHist = [...weightHist];
+    const newHist = Array.isArray(weightHist) ? [...weightHist] : [];
     newHist.push({ date: t, weight: val });
     
     setWeightLogs(newLogs);
@@ -222,10 +227,12 @@ export default function NutritionPage() {
         cls = kcalDay >= cfg.kcal * 0.85 && kcalDay <= cfg.kcal * 1.1 ? 'c-green' : kcalDay > cfg.kcal * 1.1 ? 'c-red' : 'c-amber';
       }
       
+      const wl = weightLogs.find((w: any) => w.date === key);
       cells.push(
         <div key={key} className={`nut-cal-cell ${cls} ${isTodayCell ? 'c-today' : ''}`} title={`${kcalDay} kcal`}>
           {d}
-          {fl.length > 0 && <span style={{ fontSize: "7px", display: "block" }}>{kcalDay}</span>}
+          {wl && <span style={{ fontSize: "8px", color: "#fff", background: "var(--accent)", padding: "1px 3px", borderRadius: "3px", display: "inline-block", marginTop: "2px", fontWeight: 700 }}>{wl.weight}kg</span>}
+          {fl.length > 0 && <span style={{ fontSize: "7px", display: "block", marginTop: "2px" }}>{kcalDay} kcal</span>}
         </div>
       );
     }
@@ -403,7 +410,7 @@ export default function NutritionPage() {
             </div>
             <div style={{ marginBottom: "12px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "var(--text2)", marginBottom: "5px" }}>
-                <span>{firstW ? `Inicio: ${firstW.weight}kg` : '--'}</span>
+                <span>{cfg.peso ? `Inicio: ${cfg.peso}kg` : '--'}</span>
                 <span>{weightProgPct}%</span>
               </div>
               <div style={{ height: "8px", background: "var(--bg3)", borderRadius: "4px", overflow: "hidden", border: "1px solid var(--border)" }}>
