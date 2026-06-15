@@ -151,8 +151,11 @@ export default function TrainingPage() {
 
   const calcWeekSetsForMuscle = (muscle: string) => {
     let sets = 0;
-    for (let i = 0; i < 7; i++) {
-      const d = new Date();
+    const now = new Date(selectedDate + "T12:00:00");
+    const dayOfWeek = now.getDay() === 0 ? 6 : now.getDay() - 1;
+
+    for (let i = 0; i <= dayOfWeek; i++) {
+      const d = new Date(selectedDate + "T12:00:00");
       d.setDate(d.getDate() - i);
       const dc = (completedEx || {})[ds(d)] || {};
       (routines || []).forEach((rt) => {
@@ -589,9 +592,9 @@ export default function TrainingPage() {
             </svg>
             <div style={{ flex: 1, minWidth: "180px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ fontSize: "10px", color: "var(--text2)", marginBottom: "8px" }}>Análisis ISRAETEL (Semanal)</div>
-              {activeMuscles.length ? activeMuscles.map((m) => {
-                const sets = weekVol[m];
-                const I = ISRAETEL[m];
+              {Object.keys(ISRAETEL).map((m) => {
+                const sets = weekVol[m] || 0;
+                const I = ISRAETEL[m as keyof typeof ISRAETEL];
                 const max = I.mrv;
                 
                 const dynamicColor = getDynamicColor(sets, I.mev, I.mav, I.mrv);
@@ -615,9 +618,7 @@ export default function TrainingPage() {
                     <div style={{ fontSize: "10px", color: "var(--text2)", marginLeft: "6px" }}>MEV:{I.mev} MAV:{I.mav} MRV:{I.mrv}</div>
                   </div>
                 );
-              }) : (
-                <div style={{ fontSize: "10px", color: "var(--text2)", padding: "8px 0" }}>Asigná músculos a los ejercicios para ver el análisis Israetel.</div>
-              )}
+              })}
             </div>
           </div>
         </div>

@@ -7,12 +7,20 @@ import { today, uid, fmtD, p2, MSHORT } from "@/lib/utils";
 export default function CrmPage() {
   const [cfg] = useData<any>("cfg");
   const [rawSales, setSales] = useData<any[]>("sales");
+  const [crmProducts, setCrmProducts] = useData<string[]>("crmProducts");
+  const [crmClients, setCrmClients] = useData<string[]>("crmClients");
 
   const [arsRate, setArsRate] = useState<string>("");
   const [showArs, setShowArs] = useState(false);
 
   const [filterMonth, setFilterMonth] = useState(today().substring(0, 7));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isListModalOpen, setIsListModalOpen] = useState(false);
+  const [newClient, setNewClient] = useState("");
+  const [newProduct, setNewProduct] = useState("");
+
+  const [showClientDrop, setShowClientDrop] = useState(false);
+  const [showProductDrop, setShowProductDrop] = useState(false);
 
   const [form, setForm] = useState({ company: "", client: "", product: "", price: "", cost: "", mycut: "", date: today() });
 
@@ -102,6 +110,9 @@ export default function CrmPage() {
           </button>
         </div>
         <div className="sec-actions">
+          <button className="btn btn-secondary btn-sm" onClick={() => setIsListModalOpen(true)}>
+            <i className="ti ti-list"></i> Crear Listas
+          </button>
           <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>
             <i className="ti ti-plus"></i> Nueva Venta
           </button>
@@ -232,10 +243,10 @@ export default function CrmPage() {
       </div>
 
       {isModalOpen && (
-        <div className="modal active">
-          <div className="modal-content">
-            <div className="modal-header">
-              <div className="modal-title">NUEVA VENTA</div>
+        <div className="overlay open">
+          <div className="modal" style={{ width: "400px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div className="modal-title" style={{ margin: 0 }}>NUEVA VENTA</div>
               <button className="btn-icon" onClick={() => setIsModalOpen(false)}><i className="ti ti-x"></i></button>
             </div>
             
@@ -251,11 +262,57 @@ export default function CrmPage() {
             </div>
             <div className="form-group">
               <label className="form-label">Cliente / Detalles</label>
-              <input type="text" className="form-control" value={form.client} onChange={e => setForm({...form, client: e.target.value})} placeholder="Ej. Juan Pérez" />
+              <div style={{ position: "relative" }}>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  value={form.client} 
+                  onChange={e => setForm({...form, client: e.target.value})} 
+                  onFocus={() => setShowClientDrop(true)}
+                  onBlur={() => setTimeout(() => setShowClientDrop(false), 200)}
+                  placeholder="Ej. Juan Pérez" 
+                />
+                {showClientDrop && crmClients?.length > 0 && (
+                  <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: "4px", maxHeight: "150px", overflowY: "auto", zIndex: 10, marginTop: "4px", boxShadow: "0 4px 12px rgba(0,0,0,0.5)" }}>
+                    {crmClients.map(c => (
+                      <div 
+                        key={c} 
+                        style={{ padding: "8px 12px", cursor: "pointer", borderBottom: "1px solid var(--border)", fontSize: "12px" }}
+                        onClick={() => { setForm({...form, client: c}); setShowClientDrop(false); }}
+                      >
+                        {c}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             <div className="form-group">
               <label className="form-label">Producto / Servicio</label>
-              <input type="text" className="form-control" value={form.product} onChange={e => setForm({...form, product: e.target.value})} placeholder="Ej. Pack Redes Sociales" />
+              <div style={{ position: "relative" }}>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  value={form.product} 
+                  onChange={e => setForm({...form, product: e.target.value})} 
+                  onFocus={() => setShowProductDrop(true)}
+                  onBlur={() => setTimeout(() => setShowProductDrop(false), 200)}
+                  placeholder="Ej. Pack Redes Sociales" 
+                />
+                {showProductDrop && crmProducts?.length > 0 && (
+                  <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: "4px", maxHeight: "150px", overflowY: "auto", zIndex: 10, marginTop: "4px", boxShadow: "0 4px 12px rgba(0,0,0,0.5)" }}>
+                    {crmProducts.map(p => (
+                      <div 
+                        key={p} 
+                        style={{ padding: "8px 12px", cursor: "pointer", borderBottom: "1px solid var(--border)", fontSize: "12px" }}
+                        onClick={() => { setForm({...form, product: p}); setShowProductDrop(false); }}
+                      >
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="g3" style={{ marginTop: "16px" }}>
@@ -273,8 +330,68 @@ export default function CrmPage() {
               </div>
             </div>
 
-            <button className="btn btn-primary" style={{ width: "100%", marginTop: "20px" }} onClick={saveSale}>
-              <i className="ti ti-check"></i> Registrar Venta
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <button className="btn btn-secondary" style={{ flex: 1, justifyContent: "center" }} onClick={() => setIsModalOpen(false)}>Cancelar</button>
+              <button className="btn btn-primary" style={{ flex: 1, justifyContent: "center" }} onClick={saveSale}>
+                <i className="ti ti-check"></i> Registrar Venta
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isListModalOpen && (
+        <div className="overlay open">
+          <div className="modal" style={{ width: "400px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+              <div className="modal-title" style={{ margin: 0 }}>GESTIONAR LISTAS</div>
+              <button className="btn-icon" onClick={() => setIsListModalOpen(false)}><i className="ti ti-x"></i></button>
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Lista de Clientes</label>
+              <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+                <input type="text" className="form-control" placeholder="Nuevo cliente..." value={newClient} onChange={e => setNewClient(e.target.value)} />
+                <button className="btn btn-primary" onClick={() => {
+                  if (newClient.trim() && !(crmClients || []).includes(newClient.trim())) {
+                    setCrmClients([...(crmClients || []), newClient.trim()]);
+                    setNewClient("");
+                  }
+                }}><i className="ti ti-plus"></i></button>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", maxHeight: "100px", overflowY: "auto", padding: "4px" }}>
+                {(crmClients || []).map(c => (
+                  <div key={c} className="tag" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    {c}
+                    <i className="ti ti-x" style={{ cursor: "pointer", opacity: 0.6 }} onClick={() => setCrmClients((crmClients || []).filter((x: string) => x !== c))}></i>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group" style={{ marginTop: "20px" }}>
+              <label className="form-label">Lista de Productos / Servicios</label>
+              <div style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
+                <input type="text" className="form-control" placeholder="Nuevo producto..." value={newProduct} onChange={e => setNewProduct(e.target.value)} />
+                <button className="btn btn-primary" onClick={() => {
+                  if (newProduct.trim() && !(crmProducts || []).includes(newProduct.trim())) {
+                    setCrmProducts([...(crmProducts || []), newProduct.trim()]);
+                    setNewProduct("");
+                  }
+                }}><i className="ti ti-plus"></i></button>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", maxHeight: "100px", overflowY: "auto", padding: "4px" }}>
+                {(crmProducts || []).map(p => (
+                  <div key={p} className="tag" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    {p}
+                    <i className="ti ti-x" style={{ cursor: "pointer", opacity: 0.6 }} onClick={() => setCrmProducts((crmProducts || []).filter((x: string) => x !== p))}></i>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <button className="btn btn-secondary" style={{ width: "100%", marginTop: "20px" }} onClick={() => setIsListModalOpen(false)}>
+              Cerrar
             </button>
           </div>
         </div>
