@@ -114,7 +114,7 @@ export default function OnboardingModal() {
 
         <div style={{ padding: "30px 24px" }}>
           {step === 0 && (
-            <div className="onb-step" style={{ animation: "fadeIn 0.3s" }}>
+            <div className="onb-step active" style={{ animation: "fadeIn 0.3s" }}>
               <div style={{ fontSize: "24px", fontFamily: "'Orbitron', monospace", fontWeight: 700, marginBottom: "8px", color: "var(--text)" }}>BIENVENIDO 👋</div>
               <div style={{ fontSize: "12px", color: "var(--text2)", marginBottom: "20px", lineHeight: "1.5" }}>Configurá tu perfil. Vamos a construir juntos tu mejor versión. 4 pasos rápidos.</div>
               
@@ -141,7 +141,7 @@ export default function OnboardingModal() {
           )}
 
           {step === 1 && (
-            <div className="onb-step" style={{ animation: "fadeIn 0.3s" }}>
+            <div className="onb-step active" style={{ animation: "fadeIn 0.3s" }}>
               <div style={{ fontSize: "24px", fontFamily: "'Orbitron', monospace", fontWeight: 700, marginBottom: "8px", color: "var(--text)" }}>TU CUERPO 💪</div>
               <div style={{ fontSize: "12px", color: "var(--text2)", marginBottom: "20px", lineHeight: "1.5" }}>Calculamos tus calorías y macros ideales con estos datos.</div>
               
@@ -168,7 +168,7 @@ export default function OnboardingModal() {
           )}
 
           {step === 2 && (
-            <div className="onb-step" style={{ animation: "fadeIn 0.3s" }}>
+            <div className="onb-step active" style={{ animation: "fadeIn 0.3s" }}>
               <div style={{ fontSize: "24px", fontFamily: "'Orbitron', monospace", fontWeight: 700, marginBottom: "8px", color: "var(--text)" }}>TU ACTIVIDAD 🏋️‍♂️</div>
               <div style={{ fontSize: "12px", color: "var(--text2)", marginBottom: "20px", lineHeight: "1.5" }}>Define tu gasto calórico diario.</div>
               
@@ -199,7 +199,7 @@ export default function OnboardingModal() {
           )}
 
           {step === 3 && (
-            <div className="onb-step" style={{ animation: "fadeIn 0.3s" }}>
+            <div className="onb-step active" style={{ animation: "fadeIn 0.3s" }}>
               <div style={{ fontSize: "24px", fontFamily: "'Orbitron', monospace", fontWeight: 700, marginBottom: "8px", color: "var(--text)" }}>TUS EMPRESAS 💼</div>
               <div style={{ fontSize: "12px", color: "var(--text2)", marginBottom: "20px", lineHeight: "1.5" }}>Configurá tus fuentes de ingreso.</div>
               
