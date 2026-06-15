@@ -142,6 +142,17 @@ export default function ConfigPage() {
     DB.set('lastBackup', Date.now());
   };
 
+  const resetData = () => {
+    if (confirm("¿Estás seguro de que quieres reiniciar TODO tu progreso? Esta acción no se puede deshacer y perderás toda tu información guardada.")) {
+      const keys = ["cfg", "routines", "completedEx", "calStates", "habCfg", "habLogs", "foodLogs", "foodFavs", "weightLogs", "incomes", "expenses", "sales", "weightHist", "xpLog", "totalXP", "notes", "reminders", "bibleProgress", "subjects", "grades", "schedule", "studyEvents", "weeklyShown", "customBooks", "studyLogs", "lastBackup"];
+      keys.forEach(k => { 
+        localStorage.removeItem("pa8_" + k); 
+      });
+      alert("Progreso reiniciado correctamente.");
+      window.location.reload();
+    }
+  };
+
   if (!mounted || !cfg) return <div className="section active"><div style={{ padding: '20px' }}>Cargando datos...</div></div>;
 
   return (
@@ -271,9 +282,16 @@ export default function ConfigPage() {
           <div className="panel">
             <div className="panel-head">Datos & Backup</div>
             <p style={{ fontSize: '11px', color: 'var(--text2)', marginBottom: '15px' }}>Exporta todos tus datos a un archivo JSON para mantenerlos seguros o moverlos a otro dispositivo.</p>
-            <button className="btn btn-green" onClick={exportData} style={{ width: '100%', justifyContent: 'center' }}>
+            <button className="btn btn-green" onClick={exportData} style={{ width: '100%', justifyContent: 'center', marginBottom: '10px' }}>
               <i className="ti ti-download"></i> Exportar Backup (JSON)
             </button>
+
+            <div style={{ marginTop: '20px', borderTop: '1px solid var(--border)', paddingTop: '15px' }}>
+              <p style={{ fontSize: '11px', color: 'var(--red)', marginBottom: '10px', fontWeight: 'bold' }}>ZONA DE PELIGRO</p>
+              <button className="btn" onClick={resetData} style={{ width: '100%', justifyContent: 'center', background: 'var(--red)', color: 'white', border: 'none' }}>
+                <i className="ti ti-trash"></i> Reiniciar Todo el Progreso
+              </button>
+            </div>
           </div>
         </div>
       </div>
