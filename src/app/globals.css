@@ -2095,11 +2095,4 @@
     background: rgba(170, 68, 255, 0.03);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-@ k e y f r a m e s   f a d e I n   {   f r o m   {   o p a c i t y :   0 ;   }   t o   {   o p a c i t y :   1 ;   }   }  
- 
+@keyframes fadeIn {\n  from { opacity: 0; transform: translateY(-4px); }\n  to { opacity: 1; transform: translateY(0); }\n}\n
