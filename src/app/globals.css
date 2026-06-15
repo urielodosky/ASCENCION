@@ -14,11 +14,11 @@
             --bg4: #161616;
             --accent: #ff0040;
             --accent-rgb: 255, 0, 64;
-            --green: #ff0040;
-            --amber: #ff0040;
-            --blue: #ff0040;
-            --purple: #ff0040;
-            --cyan: #ff0040;
+            --green: #00ff88;
+            --amber: #ffaa00;
+            --blue: #0088ff;
+            --purple: #cc00ff;
+            --cyan: #00ccff;
             --red: #ff0040;
             --red2: rgba(255, 0, 64, 0.1);
             --red3: rgba(255, 0, 64, 0.06);
@@ -2101,3 +2101,5 @@
 }
 
 
+@ k e y f r a m e s   f a d e I n   {   f r o m   {   o p a c i t y :   0 ;   }   t o   {   o p a c i t y :   1 ;   }   }  
+ 

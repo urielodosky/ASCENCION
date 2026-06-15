@@ -11,15 +11,14 @@ export const MSHORT = [
 export const DMIN = ["L", "M", "X", "J", "V", "S", "D"];
 export const DAYS_FULL = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-export const XP_PER_LEVEL = 200;
-
 export const XP_RULES = {
   habit: 5,
-  train: 40,
-  food: 3,
+  train: 30,
+  food: 40,
   weight: 8,
   income: 3,
-  sale: 15,
+  sale: 10,
+  book: 10,
 };
 
 export const RANKS = [
@@ -70,12 +69,28 @@ export function getRank(lvl: number) {
   return RANKS.find((r) => lvl >= r.min && lvl <= r.max) || RANKS[0];
 }
 
-export function getLvl(totalXP: number): number {
-  return Math.floor(totalXP / XP_PER_LEVEL) + 1;
-}
+export function getLvlInfo(totalXP: number) {
+  let lvl = 1;
+  let currentXP = totalXP;
+  let requiredXP = 100;
 
-export function getLvlPct(totalXP: number): string {
-  return (((totalXP % XP_PER_LEVEL) / XP_PER_LEVEL) * 100).toFixed(1);
+  while (currentXP >= requiredXP && lvl < 100) {
+    currentXP -= requiredXP;
+    lvl++;
+    requiredXP = Math.floor(requiredXP * 1.5);
+  }
+
+  if (lvl === 100) {
+    currentXP = 0;
+    requiredXP = 0;
+  }
+
+  return {
+    lvl,
+    currentXP: Math.floor(currentXP),
+    requiredXP: Math.floor(requiredXP),
+    pct: lvl === 100 ? "100.0" : ((currentXP / requiredXP) * 100).toFixed(1)
+  };
 }
 
 export function calcHabStreak(habLogs: any, habCfg: any[]): number {

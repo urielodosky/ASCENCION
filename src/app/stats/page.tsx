@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useData } from "@/lib/db";
-import { getLvl, getRank, XP_PER_LEVEL, getLvlPct } from "@/lib/utils";
+import { getLvlInfo, getRank } from "@/lib/utils";
 
 // Helper para fecha de hoy y días pasados
 const todayStr = () => new Date().toISOString().slice(0, 10);
@@ -38,10 +38,8 @@ export default function StatsPage() {
   // --- CALCULATIONS ---
 
   // 1. XP / Level
-  const lvl = getLvl(totalXP || 0);
+  const { lvl, currentXP, requiredXP, pct } = getLvlInfo(totalXP || 0);
   const rank = getRank(lvl);
-  const xpCurrent = (totalXP || 0) % XP_PER_LEVEL;
-  const xpPct = getLvlPct(totalXP || 0);
 
   // 2. Training
   const trainDaysCount = Object.keys(completedEx || {}).length;
@@ -121,10 +119,10 @@ export default function StatsPage() {
             
             <div style={{ fontSize: '11px', color: 'var(--text2)', marginBottom: '5px', display: 'flex', justifyContent: 'space-between' }}>
               <span>XP de Nivel</span>
-              <span>{xpCurrent} / {XP_PER_LEVEL}</span>
+              <span>{currentXP} / {requiredXP}</span>
             </div>
             <div style={{ height: '6px', background: 'var(--bg)', borderRadius: '3px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', background: rank.color, width: `${xpPct}%`, transition: 'width 1s ease-out' }}></div>
+              <div style={{ height: '100%', background: rank.color, width: `${pct}%`, transition: 'width 1s ease-out' }}></div>
             </div>
           </div>
 

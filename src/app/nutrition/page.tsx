@@ -1,7 +1,7 @@
 "use client";
 
 import { useData } from "@/lib/db";
-import { ds, pd, fmtD, today, uid } from "@/lib/utils";
+import { ds, pd, fmtD, today, uid, XP_RULES } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 
 // Mock implementation for addXP and showToast for now
@@ -61,7 +61,7 @@ export default function NutritionPage() {
       ts: Date.now()
     });
     setFoodLogs(newLogs);
-    addXP(3, 'Comida manual registrada');
+    addXP(XP_RULES.food, 'Comida manual registrada');
     showToast(`✓ ${manualForm.name} guardado`);
     setShowManual(false);
     setManualForm({ name: "", kcal: "", p: "", c: "", g: "", f: "" });
@@ -138,7 +138,7 @@ export default function NutritionPage() {
     if (!newLogs[nutDate]) newLogs[nutDate] = [];
     newLogs[nutDate].push({ name: f.name, meal: activeMealTab, kcal: f.kcal, p: f.p, c: f.c, g: f.g, f: f.f, ts: Date.now() });
     setFoodLogs(newLogs);
-    addXP(3, 'Fav registrado');
+    addXP(XP_RULES.food, 'Fav registrado');
     showToast(`✓ ${f.name} registrado`);
   };
 
@@ -198,7 +198,7 @@ export default function NutritionPage() {
         
         newLogs[nutDate].push({ name: names.join(', '), meal: mealToUse, kcal: totK, p: totP, c: totC, g: totG, f: totF, ts: Date.now() });
         setFoodLogs(newLogs);
-        addXP(5, 'Comida procesada por Gemini');
+        addXP(XP_RULES.food, 'Comida procesada por Gemini');
 
         const aiResponse = `<div class="ai-tag">⬡ ASCENSION AI</div>${data.message || 'Registrado con éxito.'}`;
         

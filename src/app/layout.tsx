@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
+import OnboardingModal from "@/components/ui/OnboardingModal";
 
 export const metadata: Metadata = {
   title: "ASCENSION",
@@ -21,6 +22,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <OnboardingModal />
         <Sidebar />
         <div className="main">
           {children}

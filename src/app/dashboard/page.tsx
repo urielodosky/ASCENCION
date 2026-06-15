@@ -1,7 +1,7 @@
 "use client";
 
 import { useData } from "@/lib/db";
-import { getLvl, getRank, calcHabStreak, today, ds } from "@/lib/utils";
+import { getLvlInfo, getRank, calcHabStreak, today, ds } from "@/lib/utils";
 import Link from "next/link";
 import CollapsiblePanel from "@/components/ui/CollapsiblePanel";
 
@@ -26,7 +26,7 @@ export default function DashboardPage() {
   const hour = now.getHours();
   const greeting = hour < 12 ? "BUENOS DÍAS" : hour < 18 ? "BUENAS TARDES" : "BUENAS NOCHES";
   
-  const lvl = getLvl(totalXP);
+  const { lvl } = getLvlInfo(totalXP);
   const rank = getRank(lvl);
   const streak = calcHabStreak(habLogs, habCfg);
   

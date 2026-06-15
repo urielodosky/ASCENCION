@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useData } from "@/lib/db";
-import { getLvl, getRank, XP_PER_LEVEL, getLvlPct } from "@/lib/utils";
+import { getLvlInfo, getRank } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 export default function Sidebar() {
@@ -36,10 +36,8 @@ export default function Sidebar() {
     };
   }, []);
 
-  const lvl = getLvl(totalXP);
+  const { lvl, currentXP, requiredXP, pct } = getLvlInfo(totalXP);
   const rank = getRank(lvl);
-  const xpCurrent = totalXP % XP_PER_LEVEL;
-  const xpPct = getLvlPct(totalXP);
 
   const navItems = [
     { section: "Principal" },
@@ -106,6 +104,16 @@ export default function Sidebar() {
             display: flex;
             flex-direction: column;
         }
+        .sidebar:not(:hover) .xp-details,
+        .sidebar:not(:hover) .xp-track {
+            display: none;
+        }
+        .sidebar:not(:hover) .xp-top {
+            justify-content: center;
+        }
+        .sidebar:not(:hover) .xp-lvl {
+            font-size: 14px;
+        }
       `}} />
 
       <div className="logo-area">
@@ -133,13 +141,13 @@ export default function Sidebar() {
       <div className="xp-wrap">
         <div className="xp-top">
           <span className="xp-lvl">LVL {lvl}</span>
-          <span className="xp-rank">{rank.name}</span>
+          <span className="xp-rank xp-details">{rank.name}</span>
         </div>
-        <div style={{ fontSize: "10px", color: "var(--text2)", marginBottom: "4px", textAlign: "right" }}>
-          {xpCurrent} / {XP_PER_LEVEL} XP
+        <div className="xp-details" style={{ fontSize: "10px", color: "var(--text2)", marginBottom: "4px", textAlign: "right" }}>
+          {currentXP} / {requiredXP} XP
         </div>
         <div className="xp-track">
-          <div className="xp-fill" style={{ width: `${xpPct}%`, background: rank.color }}></div>
+          <div className="xp-fill" style={{ width: `${pct}%`, background: rank.color }}></div>
         </div>
       </div>
 
