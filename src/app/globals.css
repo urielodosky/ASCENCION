@@ -32,6 +32,7 @@
             --border2: rgba(255,255,255,0.15);
             --border3: rgba(255,255,255,0.04);
             --font-scale: 1;
+            --stat-glow: 0 0 15px rgba(255, 0, 64, 0.6);
         }
 
         body.light {
@@ -45,6 +46,7 @@
             --border: #ddd;
             --border2: #ccc;
             --border3: #e5e5e5;
+            --stat-glow: none;
         }
 
         body.light .main,
@@ -453,7 +455,7 @@
             margin-bottom: 10px;
         }
 
-        .stat-value { text-shadow: 0 0 15px rgba(255, 0, 64, 0.6); 
+        .stat-value { text-shadow: var(--stat-glow); 
             font-family: 'Outfit', sans-serif;
             font-size: calc(28px * var(--font-scale));
             font-weight: 900;
