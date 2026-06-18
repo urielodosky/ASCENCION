@@ -70,6 +70,10 @@ export default function TrainingPage() {
   };
 
   const addRoutine = () => {
+    if ((routines || []).length >= 7) {
+      alert("Solo puedes tener un máximo de 7 días (rutinas) en una semana.");
+      return;
+    }
     const newRoutines = [...(routines || [])];
     newRoutines.push({
       id: "r" + uid(),
@@ -388,18 +392,20 @@ export default function TrainingPage() {
             {rt.name.length > 18 ? rt.name.slice(0, 18) + "⬦" : rt.name}
           </button>
         ))}
-        <button
-          className="tab"
-          onClick={addRoutine}
-          style={{
-            background: "rgba(255, 0, 64, 0.05)",
-            border: "1px solid var(--accent)",
-            color: "var(--accent)",
-            fontWeight: 700
-          }}
-        >
-          + Agregar día
-        </button>
+        {(routines || []).length < 7 && (
+          <button
+            className="tab"
+            onClick={addRoutine}
+            style={{
+              background: "rgba(255, 0, 64, 0.05)",
+              border: "1px solid var(--accent)",
+              color: "var(--accent)",
+              fontWeight: 700
+            }}
+          >
+            + Agregar día
+          </button>
+        )}
       </div>
 
       <div className="g3" style={{ marginBottom: "16px" }}>

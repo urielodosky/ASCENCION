@@ -21,27 +21,27 @@ export default function DashboardPage() {
   const [calStates] = useData<any>("calStates");
   const [incomes] = useData<any[]>("incomes");
   const [expenses] = useData<any[]>("expenses");
-  
+
   const now = new Date();
   const hour = now.getHours();
   const greeting = hour < 12 ? "BUENOS DÍAS" : hour < 18 ? "BUENAS TARDES" : "BUENAS NOCHES";
-  
+
   const { lvl } = getLvlInfo(totalXP);
   const rank = getRank(lvl);
   const streak = calcHabStreak(habLogs, habCfg);
-  
+
   const verse = VERSES[Math.floor(Date.now() / 86400000) % VERSES.length];
 
-  const todayFood = foodLogs[today()] || []; 
+  const todayFood = foodLogs[today()] || [];
   const kcalToday = todayFood.reduce((a: any, b: any) => a + b.kcal, 0);
-  
+
   const currentWeight = weightLogs.length ? weightLogs[weightLogs.length - 1].weight : cfg.peso;
-  
+
   const p2 = (n: number) => String(n).padStart(2, "0");
   const nowM = now.getMonth();
-  const nowY = now.getFullYear(); 
+  const nowY = now.getFullYear();
   const pre = `${nowY}-${p2(nowM + 1)}-`;
-  
+
   const monthTrain = Object.entries(calStates).filter(([k, v]) => k.startsWith(pre) && v === "done").length;
   const monthInc = incomes.filter(i => i.date.startsWith(`${nowY}-${p2(nowM + 1)}`)).reduce((a, b) => a + b.amount, 0);
   const monthExp = expenses.filter(e => e.date.startsWith(`${nowY}-${p2(nowM + 1)}`)).reduce((a, b) => a + b.amount, 0);
@@ -64,7 +64,34 @@ export default function DashboardPage() {
   const [studyEvents] = useData<any[]>("studyEvents");
 
   const dow = (now.getDay() + 6) % 7;
-  const r = routines[Math.min(dow, routines.length - 1)] || routines[0];
+
+  const getDatesBeforeTodayThisWeek = () => {
+    const dates = [];
+    for (let i = 1; i <= dow; i++) {
+      const prevD = new Date(now);
+      prevD.setDate(now.getDate() - i);
+      dates.push(ds(prevD));
+    }
+    return dates;
+  };
+  
+  const isRoutineCompletedOnDate = (dstr: string) => {
+    const compData = completedEx[dstr];
+    if (!compData) return false;
+    for (const routine of routines) {
+       if (routine.exercises && routine.exercises.length > 0) {
+          const allDone = routine.exercises.every((_: any, i: number) => compData[routine.id + i]);
+          if (allDone) return true;
+       }
+    }
+    return false;
+  };
+
+  const prevDays = getDatesBeforeTodayThisWeek();
+  const completedCount = prevDays.filter(dstr => isRoutineCompletedOnDate(dstr)).length;
+  
+  const isRestDay = completedCount >= routines.length || completedCount >= 7;
+  const r = isRestDay ? null : routines[completedCount];
   const comp = completedEx[today()] || {};
   const done = r ? r.exercises.filter((_: any, i: number) => comp[r.id + i]).length : 0;
 
@@ -81,7 +108,7 @@ export default function DashboardPage() {
   const todayLog = habLogs[today()] || {};
   const todayDow = (now.getDay() + 6) % 7;
   const todayRems = reminders.filter((rm: any) => rm.days.includes(todayDow));
-  
+
   const todayStr = today();
   const upcomingEvents = studyEvents.filter((e: any) => e.date >= todayStr).sort((a: any, b: any) => a.date.localeCompare(b.date)).slice(0, 3);
 
@@ -92,8 +119,8 @@ export default function DashboardPage() {
     const next = cur === 1 ? 0 : cur === 0 ? -1 : 1;
     if (next === -1) delete newLogs[todayStr][hid];
     else newLogs[todayStr][hid] = next;
-    
-    setHabLogs(newLogs); 
+
+    setHabLogs(newLogs);
   };
 
   const toggleExercise = (idx: number) => {
@@ -126,7 +153,7 @@ export default function DashboardPage() {
           <span className="tag tag-amber">{rank.name} LVL{lvl}</span>
         </div>
       </div>
-      
+
       <div style={{ background: "rgba(255,0,64,0.04)", border: "1px solid var(--border3)", borderRadius: "8px", padding: "14px 18px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "12px" }}>
         <span style={{ fontSize: "22px" }}>📖</span>
         <div style={{ fontSize: "11px", color: "var(--text2)", fontStyle: "italic", flex: 1, lineHeight: "1.6" }}>
@@ -168,7 +195,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="g2" style={{ marginTop: "16px" }}>
+      <div className="g2" style={{ marginTop: "16px", alignItems: "flex-start" }}>
         <CollapsiblePanel title="Calorías (últimos 7 días)" defaultOpen={false} colorClass="panel-amber" style={{ marginBottom: 0 }}>
           <div style={{ display: "flex", gap: "8px", alignItems: "flex-end", height: "100px", padding: "10px 0" }}>
             {last7.map((x, i) => (
@@ -181,7 +208,7 @@ export default function DashboardPage() {
             ))}
           </div>
         </CollapsiblePanel>
-        
+
         <CollapsiblePanel title="Progreso Semanal" defaultOpen={false} colorClass="panel-blue" style={{ marginBottom: 0 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "6px" }}>
             {weeklyStats.map((st, i) => (
@@ -197,16 +224,18 @@ export default function DashboardPage() {
         </CollapsiblePanel>
       </div>
 
-      <div className="g3" style={{ marginTop: "16px" }}>
-        <CollapsiblePanel title={`Rutina: ${r ? r.name : "--"}`} defaultOpen={false} colorClass="panel-red" style={{ marginBottom: 0 }}>
-          {r ? (
+      <div className="g3" style={{ marginTop: "16px", alignItems: "flex-start" }}>
+        <CollapsiblePanel title={isRestDay ? "Día de descanso 🌴" : `Rutina: ${r ? r.name : "--"}`} defaultOpen={false} colorClass="panel-red" style={{ marginBottom: 0 }}>
+          {isRestDay ? (
+            <div className="empty-state"><i className="ti ti-bed"></i><p>Has completado las rutinas de esta semana</p></div>
+          ) : r ? (
             <>
               {r.exercises.slice(0, 4).map((ex: any, i: number) => {
                 const isDone = comp[r.id + i];
                 return (
                   <div key={i} className="ex-item" style={{ opacity: isDone ? 0.5 : 1 }}>
-                    <div 
-                      className={`ex-chk ${isDone ? "done" : ""}`} 
+                    <div
+                      className={`ex-chk ${isDone ? "done" : ""}`}
                       style={isDone ? { background: "var(--accent)", borderColor: "var(--accent)", cursor: "pointer" } : { cursor: "pointer" }}
                       onClick={() => toggleExercise(i)}
                     >
@@ -235,8 +264,8 @@ export default function DashboardPage() {
             const v = todayLog[h.id] ?? -1;
             return (
               <div key={h.id} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "7px 0", borderBottom: "1px solid #111" }}>
-                <div 
-                  className={`hab-circle ${v === 1 ? "done" : v === 0 ? "fail" : "empty"}`} 
+                <div
+                  className={`hab-circle ${v === 1 ? "done" : v === 0 ? "fail" : "empty"}`}
                   style={{ borderColor: h.color, background: v === 1 ? h.color : "transparent", cursor: "pointer" }}
                   onClick={() => toggleHabit(h.id)}
                 >

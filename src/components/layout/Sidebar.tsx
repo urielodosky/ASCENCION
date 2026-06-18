@@ -61,6 +61,7 @@ export default function Sidebar() {
     { section: "Análisis" },
     { name: "Estadísticas", href: "/stats", icon: "ti-chart-dots-3" },
     { name: "Logros", href: "/achievements", icon: "ti-trophy" },
+    { name: "Social", href: "/social", icon: "ti-users" },
     
     { section: "Sistema" },
     { name: "Configuración", href: "/config", icon: "ti-adjustments-horizontal" },
